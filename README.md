@@ -1,4 +1,4 @@
-<img src="steamroller-branding/steamroller-logo.png" alt="SteamrollerTool Logo" width="200" />
+<img src="site-assets/steamroller-logo.png" alt="SteamrollerTool Logo" width="200" />
 
 # SteamrollerTool
 
