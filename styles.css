@@ -266,6 +266,26 @@ img { max-width: 100%; border: 1px solid var(--border-image); background: #eee; 
 .master-callout { font-size: 12px; color: #0f4c81; background: #e9f2fb; border: 1px solid #b8d3ea; padding: 8px; border-radius: 6px; margin: 0 0 8px; }
 .editable-asset { cursor: copy; }
 .drag-over { outline: 2px dashed #666; outline-offset: 2px; }
+.linux-dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  padding: 10px;
+  border: 2px dashed var(--border-default);
+  border-radius: var(--radius-md);
+  background: #f5f5f5;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  cursor: copy;
+}
+.linux-dropzone-ready {
+  border-color: #4b7f34;
+  background: #edf8e8;
+  color: #355a26;
+}
 .card-actions { margin-top: 8px; }
 .asset-download-btn, .icon-download-btn { font-size: 12px; padding: 6px 8px; cursor: pointer; }
 .kofi-corner {

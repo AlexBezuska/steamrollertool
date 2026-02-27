@@ -71,45 +71,34 @@ async function applyDroppedFile(asset, file) {
   updateCustomCount();
 }
 
-async function applyClientMasterIcon(file) {
-  const targets = [
-    { path: 'steam-assets/client/mac_icon_1024.png', width: 1024, height: 1024, format: 'png' },
-    { path: 'steam-assets/client/shortcut_icon_512.png', width: 512, height: 512, format: 'png' },
-    { path: 'steam-assets/client/app_icon_184.jpg', width: 184, height: 184, format: 'jpg' }
-  ];
+async function applyMacIcon(file) {
+  const macPngBlob = await resizedBlobFromImage(file, 1024, 1024, 'png');
+  outputMap.set('steam-assets/client/mac_icon_1024.png', macPngBlob);
 
-  let masterPngBlob = null;
-
-  for (const target of targets) {
-    const blob = await resizedBlobFromImage(file, target.width, target.height, target.format);
-    outputMap.set(target.path, blob);
-    if (target.path === 'steam-assets/client/mac_icon_1024.png') {
-      masterPngBlob = blob;
-    }
-    const img = document.querySelector(`img[data-output-path="${target.path}"]`);
-    if (img) {
-      img.src = URL.createObjectURL(blob);
-    }
+  const macImg = document.querySelector('img[data-output-path="steam-assets/client/mac_icon_1024.png"]');
+  if (macImg) {
+    macImg.src = URL.createObjectURL(macPngBlob);
   }
+
   customizedRegions.add('steam-assets/client/mac_icon_1024.png');
   updateCustomCount();
 
-  if (masterPngBlob) {
-    try {
-      const response = await fetch('/api/generate-icns', {
-        method: 'POST',
-        headers: { 'Content-Type': 'image/png' },
-        body: masterPngBlob
-      });
-      if (response.ok) {
-        const icnsBlob = await response.blob();
-        outputMap.set('steam-assets/client/mac_icon.icns', icnsBlob);
-      }
-    } catch {
-      console.warn('ICNS regeneration failed; using fallback ICNS if needed.');
+  try {
+    const response = await fetch('/api/generate-icns', {
+      method: 'POST',
+      headers: { 'Content-Type': 'image/png' },
+      body: macPngBlob
+    });
+    if (response.ok) {
+      const icnsBlob = await response.blob();
+      outputMap.set('steam-assets/client/mac_icon.icns', icnsBlob);
     }
+  } catch {
+    console.warn('ICNS regeneration failed; using fallback ICNS if needed.');
   }
+}
 
+async function applyLinuxIcon(file) {
   const linuxSizes = [16, 24, 32, 64, 96, 128, 256];
   const linuxZip = new JSZip();
   for (const size of linuxSizes) {
@@ -118,6 +107,14 @@ async function applyClientMasterIcon(file) {
   }
   const linuxZipBlob = await linuxZip.generateAsync({ type: 'blob' });
   outputMap.set('steam-assets/client/linux_icons.zip', linuxZipBlob);
+  customizedRegions.add('steam-assets/client/linux_icons.zip');
+  updateCustomCount();
+
+  const dropZone = document.getElementById('linux-icon-drop');
+  if (dropZone) {
+    dropZone.textContent = 'Linux ZIP generated. Drop another image to replace it.';
+    dropZone.classList.add('linux-dropzone-ready');
+  }
 }
 
 async function getOutputBlob(path, fallbackUrl) {
@@ -146,7 +143,7 @@ function wireAsset(asset) {
     if (!file || !file.type.startsWith('image/')) return;
     try {
       if (asset.id === 'client-master-icon') {
-        await applyClientMasterIcon(file);
+        await applyMacIcon(file);
       } else {
         await applyDroppedFile(asset, file);
       }
@@ -165,6 +162,54 @@ function wireAsset(asset) {
       triggerDownload(blob, outputFilename(asset));
     });
   }
+}
+
+function wireLinuxDropZone() {
+  const dropZone = document.getElementById('linux-icon-drop');
+  if (!dropZone) return;
+
+  const processFile = async (file) => {
+    if (!file || !file.type.startsWith('image/')) return;
+    try {
+      await applyLinuxIcon(file);
+    } catch {
+      alert('Could not process dropped image for Linux icons.');
+    }
+  };
+
+  dropZone.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    dropZone.classList.add('drag-over');
+  });
+
+  dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('drag-over');
+  });
+
+  dropZone.addEventListener('drop', async (event) => {
+    event.preventDefault();
+    dropZone.classList.remove('drag-over');
+    const file = event.dataTransfer?.files?.[0];
+    await processFile(file);
+  });
+
+  dropZone.addEventListener('click', () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.addEventListener('change', async () => {
+      const file = input.files?.[0];
+      await processFile(file);
+    });
+    input.click();
+  });
+
+  dropZone.addEventListener('keydown', async (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      dropZone.click();
+    }
+  });
 }
 
 async function buildUpdatedZip() {
@@ -255,6 +300,7 @@ function wireShareButton() {
 }
 
 for (const asset of editableAssets) wireAsset(asset);
+wireLinuxDropZone();
 wireIconDownloadButtons();
 wireShareButton();
 updateCustomCount();
