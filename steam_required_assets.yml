@@ -1,0 +1,112 @@
+steam_required_assets:
+  store_graphical_assets:
+    - name: Header Capsule
+      required: true
+      file_types:
+        - png
+        - jpg
+      pixel_size: "920x430"
+      quantity: "1 per language"
+
+    - name: Small Capsule
+      required: true
+      file_types:
+        - png
+        - jpg
+      pixel_size: "462x174"
+      quantity: "1 per language"
+
+    - name: Main Capsule
+      required: true
+      file_types:
+        - png
+        - jpg
+      pixel_size: "1232x706"
+      quantity: "1 per language"
+
+    - name: Vertical Capsule
+      required: true
+      file_types:
+        - png
+        - jpg
+      pixel_size: "748x896"
+      quantity: "1 per language"
+
+  screenshots:
+    - name: Store Screenshots
+      required: true
+      file_types:
+        - png
+        - jpg
+      pixel_size: "minimum 1920x1080 (16:9)"
+      quantity: "minimum 5"
+
+  library_assets:
+    - name: Library Capsule
+      required: true
+      file_types:
+        - png
+      pixel_size: "600x900"
+      quantity: "1 per language"
+
+    - name: Library Header
+      required: true
+      file_types:
+        - png
+      pixel_size: "920x430"
+      quantity: "1 per language"
+
+    - name: Library Hero
+      required: true
+      file_types:
+        - png
+      pixel_size: "3840x1240"
+      quantity: "1 per language"
+
+    - name: Library Logo
+      required: true
+      file_types:
+        - png
+      pixel_size: "1280px wide and/or 720px tall"
+      quantity: "1 per language"
+
+  client_images_icons_other_assets:
+    - name: Shortcut Icon
+      required: true
+      file_types:
+        - png
+      pixel_size: "PNG must be exactly 512x512"
+      quantity: "1"
+      criteria:
+        - "Use PNG-only workflow for simplicity"
+        - "Provide only one shortcut PNG at 512x512"
+
+    - name: App Icon
+      required: true
+      file_types:
+        - jpg
+      pixel_size: "184x184"
+      quantity: "1"
+      criteria:
+        - "Used in compact Steam client layouts and community group icon"
+        - "Designed for small display contexts, including high-DPI screens"
+
+    - name: Mac Icon
+      required: false
+      file_types:
+        - icns
+      pixel_size: "Use large source at 1024x1024"
+      quantity: "1"
+
+    - name: Linux Icons
+      required: false
+      file_types:
+        - zip
+      pixel_size: "ZIP should include PNG icons at multiple sizes (e.g., 16x16, 24x24, 32x32, 64x64, 96x96)"
+      quantity: "1"
+      criteria:
+        - "Archive should contain PNGs for Linux desktop/icon themes"
+
+summary:
+  total_required_asset_types: 13
+  total_absolute_minimum_assets: 17

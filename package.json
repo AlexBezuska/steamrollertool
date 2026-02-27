@@ -1,0 +1,13 @@
+{
+  "name": "steamrollertool",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Steam Assets, Done. Fast.",
+  "scripts": {
+    "start": "node app.js",
+    "build:placeholders": "node scripts/build_placeholders.js"
+  },
+  "dependencies": {
+    "sharp": "^0.34.4"
+  }
+}

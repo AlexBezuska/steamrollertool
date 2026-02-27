@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS / editor files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python / virtual env artifacts
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+
+# Build/runtime artifacts
+downloads/*.zip
+coverage/
+.tmp/
+tmp/
+todo.md
+
+# Server-specific deployment artifacts
+*.conf
+scripts/add-new-proxy-site.sh
+scripts/rsync_to_server.sh

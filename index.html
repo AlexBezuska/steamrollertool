@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="description" content="Steam Assets, Done. Fast." />
+  <meta name="msapplication-config" content="steamroller-branding/browserconfig.xml" />
+  <link rel="canonical" href="https://steamrollertool.com/" />
+  <link rel="icon" type="image/x-icon" href="steamroller-branding/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="steamroller-branding/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="steamroller-branding/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="steamroller-branding/favicon-48x48.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="steamroller-branding/apple-touch-icon.png" />
+  <link rel="manifest" href="steamroller-branding/site.webmanifest" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SteamrollerTool" />
+  <meta property="og:title" content="SteamrollerTool" />
+  <meta property="og:description" content="Steam Assets, Done. Fast." />
+  <meta property="og:url" content="https://steamrollertool.com/" />
+  <meta property="og:image" content="https://steamrollertool.com/steamroller-branding/steamrollertool-og-share.png" />
+  <meta property="og:image:alt" content="SteamrollerTool logo" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SteamrollerTool" />
+  <meta name="twitter:description" content="Steam Assets, Done. Fast." />
+  <meta name="twitter:image" content="https://steamrollertool.com/steamroller-branding/steamrollertool-og-share.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <title>SteamrollerTool</title>
+</head>
+<body>
+  <header class="site-header">
+    <img class="site-logo" src="steamroller-branding/steamroller-logo.png" alt="SteamrollerTool logo" />
+    <h1 class="site-title">SteamrollerTool</h1>
+    <p class="site-slogan">Steam Assets, Done. Fast.</p>
+    <p class="site-byline">A Project by Indie Game Dev <a href="https://fufroom.art" target="_blank" rel="noreferrer">fufroom</a></p>
+  </header>
+ 
+  <div class="header-actions">
+    <div class="download-block">
+      <p><strong>Placeholder Pack:</strong> Downloads a full set of gray placeholder assets for every slot.</p>
+      <a class="download-all" href="downloads/steamroller-placeholder-assets.zip"><i class="bi bi-bounding-box"></i> Download Full Placeholder Set (ZIP)</a>
+    </div>
+    <div class="download-block">
+      <p><strong>Your Assets Pack:</strong> Downloads the images YOU dragged into this tool; missing items stay placeholders.</p>
+      <button class="download-updated" id="download-updated-zip" type="button"><i class="bi bi-folder2-open"></i> Download Your Assets Set (ZIP) <span class="custom-count" id="custom-count">0/0</span></button>
+    </div>
+    <div class="kofi-sticky-block">
+      <a class="kofi-sticky-btn" href="https://ko-fi.com/fufroom" target="_blank" rel="noreferrer">
+        <img src="steamroller-branding/fufroom-avatar.png" alt="fufroom avatar" />
+        Find This Helpful? Buy Me a Coffee!
+      </a>
+    </div>
+    <div class="share-sticky-block">
+      <button class="share-sticky-btn" id="share-page-btn" type="button">
+        <i class="bi bi-box-arrow-up"></i>
+        Share
+      </button>
+    </div>
+  </div>
+
+  <section>
+    <h2><span>store</span></h2>
+    <p class="upload-meta"><strong>How to Find These on Steamworks:</strong><br>
+      <span class="crumbs"><span class="crumb-item">Dashboard</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">Apps and Packages</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">All Applications</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">Store Admin (Link to the Right of Your Game Name)</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">Graphical Assets</span></span><br>
+      <strong>Upload URL Template:</strong> https://partner.steamgames.com/admin/game/edit/YOUR_APP_ID?activetab=tab_graphicalassets<br>
+      <strong>Note:</strong> Replace <code>YOUR_APP_ID</code> with your Steam game App ID and make sure you are logged into Steamworks.</p>
+    <div class="cards">
+      <div class="card"><h3>Header Capsule</h3><p>920x430 PNG/JPG</p><p class="design-guidance">Design: Focus on product branding and keep the logo clearly legible.</p><p class="drop-note">Drag an image onto this asset to replace it.</p><img class="editable-asset" data-width="920" data-height="430" data-format="png" data-output-path="steam-assets/store/header_capsule.png" src="placeholders/store/header_capsule_placeholder.png" alt="Header Capsule placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button></div></div>
+      <div class="card"><h3>Small Capsule</h3><p>462x174 PNG/JPG</p><p class="design-guidance">Design: Prioritize logo readability at very small sizes; logo should nearly fill the capsule.</p><p class="drop-note">Drag an image onto this asset to replace it.</p><img class="editable-asset" data-width="462" data-height="174" data-format="png" data-output-path="steam-assets/store/small_capsule.png" src="placeholders/store/small_capsule_placeholder.png" alt="Small Capsule placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button></div></div>
+      <div class="card"><h3>Main Capsule</h3><p>1232x706 PNG/JPG</p><p class="design-guidance">Design: Use key art and logo used in marketing; avoid quotes, review scores, or awards.</p><p class="drop-note">Drag an image onto this asset to replace it.</p><img class="editable-asset" data-width="1232" data-height="706" data-format="png" data-output-path="steam-assets/store/main_capsule.png" src="placeholders/store/main_capsule_placeholder.png" alt="Main Capsule placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button></div></div>
+      <div class="card"><h3>Vertical Capsule</h3><p>748x896 PNG/JPG</p><p class="design-guidance">Design: Use vertical key art and logo for a strong marketing-focused presentation.</p><p class="drop-note">Drag an image onto this asset to replace it.</p><img class="editable-asset" data-width="748" data-height="896" data-format="png" data-output-path="steam-assets/store/vertical_capsule.png" src="placeholders/store/vertical_capsule_placeholder.png" alt="Vertical Capsule placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span>screenshots</span></h2>
+    <p class="upload-meta"><strong>How to Find These on Steamworks:</strong><br>
+      <span class="crumbs"><span class="crumb-item">Dashboard</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">Apps and Packages</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">All Applications</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">Store Admin (Link to the Right of Your Game Name)</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">Graphical Assets</span></span><br>
+      <strong>Upload URL Template:</strong> https://partner.steamgames.com/admin/game/edit/YOUR_APP_ID?activetab=tab_graphicalassets<br>
+      <strong>Note:</strong> Replace <code>YOUR_APP_ID</code> with your Steam game App ID and make sure you are logged into Steamworks.</p>
+    <div class="cards">
+      <div class="card"><h3>Store Screenshot 01</h3><p>1920x1080 minimum</p><p class="design-guidance">Design: Use clean gameplay-focused frames that represent core play clearly.</p><p class="drop-note">Drag an image onto this asset to replace it.</p><img class="editable-asset" data-width="1920" data-height="1080" data-format="png" data-output-path="steam-assets/screenshots/screenshot_01.png" src="placeholders/screenshots/store_screenshot_01_placeholder.png" alt="Store Screenshot 01 placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button></div></div>
+      <div class="card"><h3>Store Screenshot 02</h3><p>1920x1080 minimum</p><p class="design-guidance">Design: Highlight a different gameplay moment to show feature variety.</p><p class="drop-note">Drag an image onto this asset to replace it.</p><img class="editable-asset" data-width="1920" data-height="1080" data-format="png" data-output-path="steam-assets/screenshots/screenshot_02.png" src="placeholders/screenshots/store_screenshot_02_placeholder.png" alt="Store Screenshot 02 placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button></div></div>
+      <div class="card"><h3>Store Screenshot 03</h3><p>1920x1080 minimum</p><p class="design-guidance">Design: Favor readable scenes over cluttered UI-heavy captures.</p><p class="drop-note">Drag an image onto this asset to replace it.</p><img class="editable-asset" data-width="1920" data-height="1080" data-format="png" data-output-path="steam-assets/screenshots/screenshot_03.png" src="placeholders/screenshots/store_screenshot_03_placeholder.png" alt="Store Screenshot 03 placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button></div></div>
+      <div class="card"><h3>Store Screenshot 04</h3><p>1920x1080 minimum</p><p class="design-guidance">Design: Keep composition clear so key subjects read instantly at thumbnail size.</p><p class="drop-note">Drag an image onto this asset to replace it.</p><img class="editable-asset" data-width="1920" data-height="1080" data-format="png" data-output-path="steam-assets/screenshots/screenshot_04.png" src="placeholders/screenshots/store_screenshot_04_placeholder.png" alt="Store Screenshot 04 placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button></div></div>
+      <div class="card"><h3>Store Screenshot 05</h3><p>1920x1080 minimum</p><p class="design-guidance">Design: Include a strong visual moment that complements your other screenshots.</p><p class="drop-note">Drag an image onto this asset to replace it.</p><img class="editable-asset" data-width="1920" data-height="1080" data-format="png" data-output-path="steam-assets/screenshots/screenshot_05.png" src="placeholders/screenshots/store_screenshot_05_placeholder.png" alt="Store Screenshot 05 placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span>library</span></h2>
+    <p class="upload-meta"><strong>How to Find These on Steamworks:</strong><br>
+      <span class="crumbs"><span class="crumb-item">Dashboard</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">Apps and Packages</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">All Applications</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">Store Admin (Link to the Right of Your Game Name)</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">Graphical Assets</span></span><br>
+      <strong>Upload URL Template:</strong> https://partner.steamgames.com/admin/game/edit/YOUR_APP_ID?activetab=tab_graphicalassets<br>
+      <strong>Note:</strong> Replace <code>YOUR_APP_ID</code> with your Steam game App ID and make sure you are logged into Steamworks.</p>
+    <div class="cards">
+      <div class="card"><h3>Library Capsule</h3><p>600x900 PNG</p><p class="design-guidance">Design: Keep artwork readable in tall portrait format with clear focal framing.</p><p class="drop-note">Drag an image onto this asset to replace it.</p><img class="editable-asset" data-width="600" data-height="900" data-format="png" data-output-path="steam-assets/library/library_capsule.png" src="placeholders/library/library_capsule_placeholder.png" alt="Library Capsule placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button></div></div>
+      <div class="card"><h3>Library Header</h3><p>920x430 PNG</p><p class="design-guidance">Design: Use wide branding treatment that stays legible in compact library layouts.</p><p class="drop-note">Drag an image onto this asset to replace it.</p><img class="editable-asset" data-width="920" data-height="430" data-format="png" data-output-path="steam-assets/library/library_header.png" src="placeholders/library/library_header_placeholder.png" alt="Library Header placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button></div></div>
+      <div class="card"><h3>Library Hero</h3><p>3840x1240 PNG</p><p class="design-guidance">Design: Favor cinematic panoramic composition with strong center-weighted content.</p><p class="drop-note">Drag an image onto this asset to replace it.</p><img class="editable-asset" data-width="3840" data-height="1240" data-format="png" data-output-path="steam-assets/library/library_hero.png" src="placeholders/library/library_hero_placeholder.png" alt="Library Hero placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button></div></div>
+      <div class="card"><h3>Library Logo</h3><p>1280x720 PNG</p><p class="design-guidance">Design: Maintain clear logo silhouette and spacing for transparent-overlay use cases.</p><p class="drop-note">Drag an image onto this asset to replace it.</p><img class="editable-asset" data-width="1280" data-height="720" data-format="png" data-output-path="steam-assets/library/library_logo.png" src="placeholders/library/library_logo_placeholder.png" alt="Library Logo placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span>client</span></h2>
+    <p class="upload-meta"><strong>How to Find These on Steamworks:</strong><br>
+      <span class="crumbs"><span class="crumb-item">Dashboard</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">Apps and Packages</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">All Applications</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">Steamworks Admin (Link to the Right of Your Game Name)</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">Installation</span><i class="bi bi-chevron-right crumb-icon" aria-hidden="true"></i><span class="crumb-item">Client Images</span></span><br>
+      <strong>Upload URL Template:</strong> https://partner.steamgames.com/apps/clientimages/YOUR_APP_ID<br>
+      <strong>Note:</strong> Replace <code>YOUR_APP_ID</code> with your Steam game App ID and make sure you are logged into Steamworks.<br>
+      <strong>Docs:</strong> <a href="https://partner.steamgames.com/doc/store/assets/community" target="_blank" rel="noreferrer">Community & Client Icons</a></p>
+    <div class="cards">
+      <div class="card"><h3>Shortcut Icon PNG (512)</h3><p>512x512 PNG</p><p class="design-guidance">Design: Keep the icon simple and high-contrast for small-size recognition.</p><p class="drop-note">Auto-generated from the 1024x1024 icon below.</p><img data-width="512" data-height="512" data-format="png" data-output-path="steam-assets/client/shortcut_icon_512.png" src="placeholders/client/shortcut_icon_512_placeholder.png" alt="Shortcut Icon 512 placeholder"><div class="card-actions"><button class="icon-download-btn" type="button" data-download-path="steam-assets/client/shortcut_icon_512.png" data-fallback-url="placeholders/client/shortcut_icon_512_placeholder.png" data-filename="shortcut_icon_512.png">Download Shortcut Icon</button></div></div>
+      <div class="card"><h3>App Icon</h3><p>184x184 JPG</p><p class="design-guidance">Design: Optimize readability at compact sizes across client and notifications.</p><p class="drop-note">Auto-generated from the 1024x1024 icon below.</p><img data-width="184" data-height="184" data-format="jpg" data-output-path="steam-assets/client/app_icon_184.jpg" src="placeholders/client/app_icon_184_placeholder.jpg" alt="App Icon placeholder"><div class="card-actions"><button class="icon-download-btn" type="button" data-download-path="steam-assets/client/app_icon_184.jpg" data-fallback-url="placeholders/client/app_icon_184_placeholder.jpg" data-filename="app_icon_184.jpg">Download App Icon</button></div></div>
+      <div class="card"><h3>Mac Icon (Large Source)</h3><p>1024x1024 PNG source + ICNS placeholder</p><p class="design-guidance">Design: Use clean silhouette and strong contrast so it scales well to all icon sizes.</p><p class="master-callout">Upload here: drag one 1024x1024 icon onto this image and we’ll auto-generate all client icons.</p><img id="client-master-icon" class="editable-asset" data-width="1024" data-height="1024" data-format="png" data-output-path="steam-assets/client/mac_icon_1024.png" src="placeholders/client/mac_icon_1024_placeholder.png" alt="Mac Icon 1024 placeholder"><div class="card-actions"><button class="asset-download-btn" type="button">Download Sized Asset</button> <button class="icon-download-btn" type="button" data-download-path="steam-assets/client/mac_icon.icns" data-fallback-url="placeholders/client/mac_icon_placeholder.icns" data-filename="mac_icon.icns">Download Mac ICNS</button></div></div>
+      <div class="card"><h3>Linux Icons</h3><p>ZIP of multi-size PNG icons</p><p class="drop-note">Auto-generated from the 1024x1024 icon below.</p><div class="card-actions"><button class="icon-download-btn" type="button" data-download-path="steam-assets/client/linux_icons.zip" data-fallback-url="placeholders/client/linux_icons_placeholder.zip" data-filename="linux_icons.zip">Download Linux Icons ZIP</button></div></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p><strong>SteamrollerTool</strong></p>
+    <p><strong>License:</strong> CC0 1.0 Universal (Creative Commons Zero).</p>
+    <p><strong>Project By:</strong> Indie Game Dev <a href="https://fufroom.art" target="_blank" rel="noreferrer">fufroom</a></p>
+    <p><strong>Trademark / Branding Notice:</strong> Do not use the SteamrollerTool logo for projects, products, or branding outside this site.</p>
+    <p>
+      <a class="github-fork-badge" href="https://github.com/AlexBezuska/steamrollertool" target="_blank" rel="noreferrer">
+        <i class="bi bi-github" aria-hidden="true"></i>
+        Fork me on GitHub
+      </a>
+    </p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="main.js"></script>
+<!-- pawprint code for kittylytics -->
+<script async src="https://kittylytics.com/pawprint.js"
+  data-pawprint="moonlit-noodles-chartreux"></script>
+<!-- /pawprint code for kittylytics -->
+</body>
+</html>
