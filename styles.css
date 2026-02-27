@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Dacherry";
-  src: url("steamroller-branding/Dacherry.ttf") format("truetype");
+  src: url("site-assets/Dacherry.ttf") format("truetype");
   font-display: swap;
 }
 
@@ -51,6 +51,13 @@ h1 { margin: 0 0 8px; }
   background: transparent;
   transform-origin: 50% 100%;
   animation: logo-swing-pulse 3.2s ease-in-out infinite;
+}
+.site-logo.drag-over {
+  outline: 3px dashed var(--border-default);
+  outline-offset: 6px;
+}
+.site-logo.easter-egg-active {
+  filter: brightness(1.08);
 }
 
 @keyframes logo-swing-pulse {
@@ -248,6 +255,38 @@ img { max-width: 100%; border: 1px solid var(--border-image); background: #eee; 
 }
 .download-all, .download-updated { display: inline-flex; align-items: center; gap: 8px; margin: 0; padding: 10px 14px; text-decoration: none; }
 .download-updated { cursor: pointer; }
+.download-updated {
+  --growth-scale: 1;
+  transform-origin: center center;
+  transform: scale(var(--growth-scale));
+}
+.download-updated.download-growth-pop {
+  animation: download-growth-pop 0.56s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+@keyframes download-growth-pop {
+  0% {
+    transform: scale(var(--growth-scale));
+  }
+  18% {
+    transform: scale(var(--growth-scale)) translateX(-1px) rotate(-1.2deg);
+  }
+  32% {
+    transform: scale(var(--growth-scale)) translateX(2px) rotate(1.4deg);
+  }
+  46% {
+    transform: scale(var(--growth-scale)) translateX(-2px) rotate(-1.1deg);
+  }
+  62% {
+    transform: scale(calc(var(--growth-scale) * 1.035), calc(var(--growth-scale) * 0.965));
+  }
+  80% {
+    transform: scale(calc(var(--growth-scale) * 0.975), calc(var(--growth-scale) * 1.025));
+  }
+  100% {
+    transform: scale(var(--growth-scale));
+  }
+}
 .custom-count {
   display: inline-flex;
   align-items: center;
@@ -265,7 +304,27 @@ img { max-width: 100%; border: 1px solid var(--border-image); background: #eee; 
 .design-guidance { font-size: 12px; color: #444; margin: 0 0 8px; }
 .master-callout { font-size: 12px; color: #0f4c81; background: #e9f2fb; border: 1px solid #b8d3ea; padding: 8px; border-radius: 6px; margin: 0 0 8px; }
 .editable-asset { cursor: copy; }
+.slot-filled {
+  animation: sine-scale 3.6s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
 .drag-over { outline: 2px dashed #666; outline-offset: 2px; }
+.slot-pop {
+  animation: slot-pop-in 0.26s ease-out;
+}
+
+@keyframes sine-scale {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.012); }
+  50% { transform: scale(1); }
+  75% { transform: scale(0.988); }
+  100% { transform: scale(1); }
+}
+
+@keyframes slot-pop-in {
+  0% { transform: scale(0.92); filter: brightness(1.18); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
 .linux-dropzone {
   display: flex;
   align-items: center;

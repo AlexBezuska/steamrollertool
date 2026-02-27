@@ -7,23 +7,23 @@
   "theme_color": "#ffffff",
   "icons": [
     {
-      "src": "steamroller-branding/android-chrome-192x192.png",
+      "src": "site-assets/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "steamroller-branding/android-chrome-512x512.png",
+      "src": "site-assets/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "steamroller-branding/icon-192.png",
+      "src": "site-assets/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "steamroller-branding/icon-512.png",
+      "src": "site-assets/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

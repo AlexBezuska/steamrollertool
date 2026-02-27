@@ -2,11 +2,49 @@ const editableAssets = Array.from(document.querySelectorAll('.editable-asset'));
 const outputAssets = Array.from(document.querySelectorAll('[data-output-path]'));
 const outputMap = new Map();
 const customizedRegions = new Set();
+let logoEasterEggRunning = false;
+let lastSlotSoundAt = 0;
+let lastAnimatedCustomCount = 0;
+
+function sleep(ms) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
 
 function updateCustomCount() {
   const countEl = document.getElementById('custom-count');
-  if (!countEl) return;
-  countEl.textContent = `${customizedRegions.size}/${editableAssets.length}`;
+  const currentCount = customizedRegions.size;
+  if (countEl) {
+    countEl.textContent = `${currentCount}/${editableAssets.length}`;
+  }
+
+  if (currentCount > lastAnimatedCustomCount) {
+    animateUpdatedDownloadButton(currentCount);
+  } else if (currentCount < lastAnimatedCustomCount) {
+    syncUpdatedDownloadButtonScale(currentCount);
+  }
+
+  lastAnimatedCustomCount = currentCount;
+}
+
+function calculateGrowthScale(count) {
+  const cappedCount = Math.min(count, 20);
+  return (1 + (cappedCount * 0.02)).toFixed(3);
+}
+
+function syncUpdatedDownloadButtonScale(count) {
+  const button = document.getElementById('download-updated-zip');
+  if (!button) return;
+  button.style.setProperty('--growth-scale', calculateGrowthScale(count));
+}
+
+function animateUpdatedDownloadButton(count) {
+  const button = document.getElementById('download-updated-zip');
+  if (!button) return;
+
+  button.style.setProperty('--growth-scale', calculateGrowthScale(count));
+  button.classList.remove('download-growth-pop');
+  void button.offsetWidth;
+  button.classList.add('download-growth-pop');
 }
 
 function triggerDownload(blob, filename) {
@@ -22,6 +60,70 @@ function triggerDownload(blob, filename) {
 
 function outputFilename(asset) {
   return asset.dataset.outputPath.split('/').pop();
+}
+
+function markSlotFilled(asset) {
+  if (!asset) return;
+  asset.classList.add('slot-filled');
+}
+
+function playAudioFile(src, volume = 1) {
+  return new Promise((resolve) => {
+    try {
+      const audio = new Audio(src);
+      audio.volume = volume;
+      audio.preload = 'auto';
+
+      const done = () => {
+        audio.removeEventListener('ended', done);
+        audio.removeEventListener('error', done);
+        resolve();
+      };
+
+      audio.addEventListener('ended', done);
+      audio.addEventListener('error', done);
+
+      const start = audio.play();
+      if (start && typeof start.then === 'function') {
+        start.catch(done);
+      }
+    } catch {
+      resolve();
+    }
+  });
+}
+
+function playSlotDropSound() {
+  const now = Date.now();
+  if (now - lastSlotSoundAt < 60) return;
+  lastSlotSoundAt = now;
+
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) return;
+
+  try {
+    const ctx = new AudioCtx();
+    const startTime = ctx.currentTime + 0.01;
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, startTime);
+    osc.frequency.exponentialRampToValueAtTime(660, startTime + 0.08);
+
+    gain.gain.setValueAtTime(0.0001, startTime);
+    gain.gain.exponentialRampToValueAtTime(0.06, startTime + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.1);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(startTime);
+    osc.stop(startTime + 0.11);
+
+    window.setTimeout(() => ctx.close().catch(() => {}), 260);
+  } catch {
+  }
 }
 
 async function resizedBlobFromImage(file, width, height, format) {
@@ -67,8 +169,10 @@ async function applyDroppedFile(asset, file) {
   const blob = await resizedBlobFromImage(file, width, height, format);
   outputMap.set(asset.dataset.outputPath, blob);
   asset.src = URL.createObjectURL(blob);
+  markSlotFilled(asset);
   customizedRegions.add(asset.dataset.outputPath);
   updateCustomCount();
+  playSlotDropSound();
 }
 
 async function applyMacIcon(file) {
@@ -78,10 +182,12 @@ async function applyMacIcon(file) {
   const macImg = document.querySelector('img[data-output-path="steam-assets/client/mac_icon_1024.png"]');
   if (macImg) {
     macImg.src = URL.createObjectURL(macPngBlob);
+    markSlotFilled(macImg);
   }
 
   customizedRegions.add('steam-assets/client/mac_icon_1024.png');
   updateCustomCount();
+  playSlotDropSound();
 
   try {
     const response = await fetch('/api/generate-icns', {
@@ -114,6 +220,114 @@ async function applyLinuxIcon(file) {
   if (dropZone) {
     dropZone.textContent = 'Linux ZIP generated. Drop another image to replace it.';
     dropZone.classList.add('linux-dropzone-ready');
+  }
+}
+
+function playEasterEggSound() {
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) return Promise.resolve();
+
+  return new Promise((resolve) => {
+    try {
+      const ctx = new AudioCtx();
+      const startTime = ctx.currentTime + 0.02;
+      const notes = [523.25, 659.25, 783.99, 1046.5];
+
+      notes.forEach((frequency, index) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        const noteStart = startTime + (index * 0.12);
+        const noteEnd = noteStart + 0.18;
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(frequency, noteStart);
+        gain.gain.setValueAtTime(0.0001, noteStart);
+        gain.gain.exponentialRampToValueAtTime(0.08, noteStart + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, noteEnd);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(noteStart);
+        osc.stop(noteEnd);
+      });
+
+      window.setTimeout(() => {
+        ctx.close().catch(() => {});
+        resolve();
+      }, 1200);
+    } catch {
+      resolve();
+    }
+  });
+}
+
+function smoothScrollToBottom(durationMs = 7000) {
+  return new Promise((resolve) => {
+    const startY = window.scrollY;
+    const targetY = document.documentElement.scrollHeight - window.innerHeight;
+    if (targetY <= startY) {
+      resolve();
+      return;
+    }
+
+    const startTime = performance.now();
+    const easeInOut = (value) => (value < 0.5 ? 2 * value * value : 1 - (Math.pow(-2 * value + 2, 2) / 2));
+
+    const tick = (now) => {
+      const progress = Math.min(1, (now - startTime) / durationMs);
+      const eased = easeInOut(progress);
+      window.scrollTo({ top: startY + ((targetY - startY) * eased), left: 0, behavior: 'auto' });
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        resolve();
+      }
+    };
+
+    requestAnimationFrame(tick);
+  });
+}
+
+async function runLogoEasterEgg(file) {
+  if (logoEasterEggRunning) return;
+  if (!file || !file.type.startsWith('image/')) return;
+
+  logoEasterEggRunning = true;
+  const logo = document.querySelector('.site-logo');
+  logo?.classList.add('easter-egg-active');
+
+  try {
+    await playAudioFile('site-assets/ui-button-click.ogg', 0.9);
+    await playEasterEggSound();
+
+    for (const asset of editableAssets) {
+      asset.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      await sleep(260);
+
+      if (asset.id === 'client-master-icon') {
+        await applyMacIcon(file);
+      } else {
+        await applyDroppedFile(asset, file);
+      }
+
+      asset.classList.add('slot-pop');
+      window.setTimeout(() => asset.classList.remove('slot-pop'), 260);
+      await sleep(150);
+    }
+
+    const linuxDrop = document.getElementById('linux-icon-drop');
+    linuxDrop?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    await sleep(280);
+    await applyLinuxIcon(file);
+    linuxDrop?.classList.add('slot-pop');
+    window.setTimeout(() => linuxDrop?.classList.remove('slot-pop'), 260);
+
+    await smoothScrollToBottom(2200);
+  } finally {
+    logo?.classList.remove('easter-egg-active');
+    logoEasterEggRunning = false;
   }
 }
 
@@ -299,9 +513,37 @@ function wireShareButton() {
   });
 }
 
+function wireLogoEasterEgg() {
+  const logo = document.querySelector('.site-logo');
+  if (!logo) return;
+
+  logo.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    logo.classList.add('drag-over');
+  });
+
+  logo.addEventListener('dragleave', () => {
+    logo.classList.remove('drag-over');
+  });
+
+  logo.addEventListener('drop', async (event) => {
+    event.preventDefault();
+    logo.classList.remove('drag-over');
+    const file = event.dataTransfer?.files?.[0];
+    if (!file || !file.type.startsWith('image/')) return;
+
+    try {
+      await runLogoEasterEgg(file);
+    } catch {
+      alert('Could not process dropped image.');
+    }
+  });
+}
+
 for (const asset of editableAssets) wireAsset(asset);
 wireLinuxDropZone();
 wireIconDownloadButtons();
 wireShareButton();
+wireLogoEasterEgg();
 updateCustomCount();
 document.getElementById('download-updated-zip')?.addEventListener('click', buildUpdatedZip);
