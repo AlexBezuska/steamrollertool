@@ -123,9 +123,8 @@ make_capsule() {
   local out="$1"
   local w="$2"
   local h="$3"
-  local text="$4"
-  local with_logo="$5"
-  local bg_src="${6:-$BG_FILE}"
+  local with_logo="$4"
+  local bg_src="${5:-$BG_FILE}"
 
   local overlay_source=""
   if [[ -n "$LOGO_FILE" ]]; then
@@ -191,13 +190,13 @@ make_screenshot() {
 
 echo "Generating required Steam assets into: $OUT_DIR"
 
-make_capsule "$OUT_DIR/store/header_capsule.png" 920 430 "PULLPALS BETA" true "$BG_REPEAT_SOURCE"
-make_capsule "$OUT_DIR/store/small_capsule.png" 462 174 "PULLPALS BETA" true "$BG_REPEAT_SOURCE"
-make_capsule "$OUT_DIR/store/main_capsule.png" 1232 706 "PULLPALS BETA" true "$BG_REPEAT_SOURCE"
-make_capsule "$OUT_DIR/store/vertical_capsule.png" 748 896 "PULLPALS BETA" true "$BG_REPEAT_SOURCE"
+make_capsule "$OUT_DIR/store/header_capsule.png" 920 430 true "$BG_REPEAT_SOURCE"
+make_capsule "$OUT_DIR/store/small_capsule.png" 462 174 true "$BG_REPEAT_SOURCE"
+make_capsule "$OUT_DIR/store/main_capsule.png" 1232 706 true "$BG_REPEAT_SOURCE"
+make_capsule "$OUT_DIR/store/vertical_capsule.png" 748 896 true "$BG_REPEAT_SOURCE"
 
-make_capsule "$OUT_DIR/library/library_capsule.png" 600 900 "PULLPALS" true "$BG_REPEAT_SOURCE"
-make_capsule "$OUT_DIR/library/library_header.png" 920 430 "PULLPALS" true
+make_capsule "$OUT_DIR/library/library_capsule.png" 600 900 true "$BG_REPEAT_SOURCE"
+make_capsule "$OUT_DIR/library/library_header.png" 920 430 true
 make_image_only "$OUT_DIR/library/library_hero.png" 3840 1240
 make_library_logo "$OUT_DIR/library/library_logo.png"
 

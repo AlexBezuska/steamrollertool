@@ -7,6 +7,9 @@ const { execFileSync } = require('child_process');
 
 const port = Number(process.env.PORT || 8092);
 const rootDir = __dirname;
+const MAX_UPLOAD_BYTES = 20 * 1024 * 1024;
+const MAX_CONCURRENT_ICNS_JOBS = Number(process.env.MAX_CONCURRENT_ICNS_JOBS || 2);
+let activeIcnsJobs = 0;
 
 const contentTypes = {
   '.html': 'text/html; charset=utf-8',
@@ -25,11 +28,16 @@ const contentTypes = {
 };
 
 function send(res, status, body, type = 'text/plain; charset=utf-8') {
-  res.writeHead(status, { 'Content-Type': type });
+  res.writeHead(status, {
+    'Content-Type': type,
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY',
+    'Referrer-Policy': 'strict-origin-when-cross-origin'
+  });
   res.end(body);
 }
 
-function parseRawBody(req, maxBytes = 20 * 1024 * 1024) {
+function parseRawBody(req, maxBytes = MAX_UPLOAD_BYTES) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     let totalBytes = 0;
@@ -80,13 +88,39 @@ async function handleRequest(req, res) {
   const requestPath = (req.url || '/').split('?')[0];
 
   if (req.method === 'POST' && requestPath === '/api/generate-icns') {
+    const contentType = (req.headers['content-type'] || '').toLowerCase();
+    if (!contentType.startsWith('image/')) {
+      send(res, 400, 'Invalid upload. Provide an image file.');
+      return;
+    }
+
+    const contentLength = Number(req.headers['content-length'] || 0);
+    if (Number.isFinite(contentLength) && contentLength > MAX_UPLOAD_BYTES) {
+      send(res, 413, 'Payload Too Large');
+      return;
+    }
+
+    if (activeIcnsJobs >= MAX_CONCURRENT_ICNS_JOBS) {
+      send(res, 503, 'Server busy. Please try again shortly.');
+      return;
+    }
+
+    activeIcnsJobs += 1;
     try {
       const sourceBuffer = await parseRawBody(req);
       const icnsBuffer = await generateIcnsFromPngBuffer(sourceBuffer);
       send(res, 200, icnsBuffer, 'image/icns');
     } catch (error) {
-      const status = error.statusCode || 500;
-      send(res, status, status === 500 ? `ICNS generation failed: ${error.message}` : error.message);
+      const errorMessage = String(error?.message || '');
+      if (error.statusCode === 413) {
+        send(res, 413, 'Payload Too Large');
+      } else if (/unsupported image format|input buffer/i.test(errorMessage)) {
+        send(res, 400, 'Invalid image file. Please upload PNG/JPG/WebP.');
+      } else {
+        send(res, 500, 'ICNS generation failed.');
+      }
+    } finally {
+      activeIcnsJobs = Math.max(0, activeIcnsJobs - 1);
     }
     return;
   }
