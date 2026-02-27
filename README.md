@@ -1,8 +1,10 @@
-![SteamrollerTool Logo](steamroller-branding/steamroller-logo.png)
+<img src="steamroller-branding/steamroller-logo.png" alt="SteamrollerTool Logo" width="200" />
 
 # SteamrollerTool
 
 **Steam Assets, Done. Fast.**
+
+Live site: **[steamrollertool.com](https://steamrollertool.com)**
 
 By **fufroom**  
 If this helps you, consider supporting: **[Buy Me a Coffee](https://ko-fi.com/fufroom)**
